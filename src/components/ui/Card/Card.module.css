@@ -1,0 +1,8 @@
+.card {
+    width: 300px;
+background-color: rgb(199, 241, 239);
+}
+
+.card img{
+    max-width: 100%;
+}
