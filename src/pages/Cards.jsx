@@ -1,24 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../components/ui/Card/Card";
-import { data } from "../../data";
 import { useNavigate } from "react-router-dom";
 
 const Cards = () => {
-const navigate = useNavigate();
+  // Состояние для хранения данных по карточкам
+  const [data, setData] = useState(null);
 
-    /**
-   * Обработчик клика по карточке
-   * @param {object} data - данные карточки
+  useEffect(() => {
+    fetch("http://localhost:3000/products")
+      .then((response) => response.json())
+      .then((json) => setData(json));
+  }, []);
+
+  // хук react-router-dom для навигации по страницам
+  const navigate = useNavigate();
+
+  /**
+   * Обработчик клика по карточке.
+   * @param {object} cardData - Данные карточки.
    */
-
-  const handleClick = (data) => {
-    navigate(`/cards/${data?.id}`, {state: data});
+  const handleClick = (cardData) => {
+    navigate(`/cards/${cardData?.alias}`, { state: cardData });
   };
 
   return (
-    <main id="app" className="py=8">
-      <h3>Cards page</h3>
+    <main id="app" className="py-8">
       <div className="max-w-7xl mx-auto px-2">
+        <h3>Cards page</h3>
         <div className="flex flex-wrap justify-between">
           {data?.length > 0 &&
             data?.map((productInfo) => {
@@ -35,4 +43,5 @@ const navigate = useNavigate();
     </main>
   );
 };
+
 export default Cards;

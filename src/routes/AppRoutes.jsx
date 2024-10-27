@@ -9,27 +9,49 @@ import CardDetails from "../pages/CardDetails";
 const routes = [
   { path: "/", element: <Home /> },
   { path: "cards", element: <Cards /> },
-  { path: "cards/:id", element: <CardDetails /> },
+  { path: "cards/:alias", element: <CardDetails /> },
 ];
 
 /**
  * Рекурсивно отображает роуты и дочерние роуты.
- * @param {RouteItem} route - Объект роута.
+ * @param {Array} routes - Массив объектов роута.
  * @returns {JSX.Element} JSX элемент роута.
  */
-const renderRoute = ({ path, element, children }) => (
-  <Route key={path} path={path} element={element}>
-    {children && children.map(renderRoute)}
-  </Route>
-);
+const renderRoutes = (routes) => {
+  if (!routes?.length) {
+    return null;
+  }
+
+  return routes?.map(({ path, element, children }) => (
+    <Route key={path} path={path} element={element}>
+      {children && renderRoutes(children)}
+    </Route>
+  ));
+};
 
 /** Корневой компонент приложения с роутами */
 const AppRoutes = () => (
   <Routes>
     <Route path="/" element={<MainLayout />}>
-      {routes?.map(renderRoute)}
+      {renderRoutes(routes)}
     </Route>
   </Routes>
 );
+
+// Или так без компонента MainLayout
+/** Корневой компонент приложения с роутами */
+// const AppRoutes = () => (
+//   <div className="flex flex-col min-h-screen">
+//     <Header />
+//     <main className="flex-grow container mx-auto p-4 mt-16">
+//       <Routes>
+//         <Route path="/" element={<Outlet />}>
+//           {renderRoutes(routes)}
+//         </Route>
+//       </Routes>
+//     </main>
+//     <Footer />
+//   </div>
+// );
 
 export default AppRoutes;

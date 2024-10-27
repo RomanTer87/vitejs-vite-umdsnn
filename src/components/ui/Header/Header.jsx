@@ -40,7 +40,7 @@ const Header = () => {
             <NavLink to="/" className="flex-shrink-0 flex items-center">
               <img
                 className="w-36 object-contain"
-                src="../../../assets/header/logo.svg"
+                src="../../src/assets/header/logo.svg"
                 alt="Logo"
               />
             </NavLink>
